@@ -1,0 +1,51 @@
+  /**
+  * @Time: 2019/9/9
+  * @For: 页面常用样式
+  */
+
+  @import 'reset';
+
+
+  // 垂直水平居中
+  .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 弹框最大高度
+  .dialog-wrap {
+    max-height: 500px;
+    overflow: auto;
+  }
+
+  /*webkit内核*/
+  .scroll_content::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+
+  /*o内核*/
+  .scroll_content .-o-scrollbar {
+    -moz-appearance: none !important;
+    background: rgba(0, 255, 0, 0) !important;
+  }
+
+  /*IE10,IE11,IE12*/
+  .scroll_content {
+    -ms-scroll-chaining: chained;
+    -ms-overflow-style: none;
+    -ms-content-zooming: zoom;
+    -ms-scroll-rails: none;
+    -ms-content-zoom-limit-min: 100%;
+    -ms-content-zoom-limit-max: 500%;
+    -ms-scroll-snap-type: proximity;
+    -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+    -ms-overflow-style: none;
+    overflow: auto;
+  }
+
+  .container{
+    padding:10px;
+    font-size: 14px;
+  }
