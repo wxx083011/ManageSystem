@@ -1,6 +1,6 @@
 # vue-manage
 
-基于 vue2.0+element.UI+vue-amap+echart 的后台管理系统的后台管理系统的后台管理系统解决方案。
+基于 vue2.0+element.ui+vue-amap+echart 的后台管理系统的后台管理系统的后台管理系统解决方案。
 
 ## 前言
 
