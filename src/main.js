@@ -14,25 +14,21 @@ import ElementUI from 'element-ui'
 import axios from 'axios'
 import QS from 'qs'
 
-/* 省市区三级菜单 */
-import { pca, pcaa } from 'area-data'
-import 'vue-area-linkage/dist/index.css' // v2 or higher
-import VueAreaLinkage from 'vue-area-linkage' // v5 or higher
-import AMap from 'vue-amap'
+/* 导出 */
+import { exportExcel } from '@/utils/excel'
 
 /* 图表 */
 /* import echarts from 'echarts'
 Vue.prototype.$echarts = echarts */
 
 /* 地图 */
+import AMap from 'vue-amap'
 Vue.use(ElementUI, {
   size: 'small'
 })
 Vue.prototype.$axios = axios
 Vue.prototype.qs = QS
-Vue.prototype.$pcaa = pcaa
-Vue.prototype.$pca = pca
-Vue.use(VueAreaLinkage)
+Vue.prototype.$exportExcel = exportExcel
 Vue.use(AMap)
 AMap.initAMapApiLoader({
   // 高德的key
@@ -47,7 +43,14 @@ AMap.initAMapApiLoader({
     'AMap.MapType', // 类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
     'AMap.PolyEditor', // 编辑 折线多，边形
     'AMap.CircleEditor', // 圆形编辑器插件
-    'AMap.Geolocation' // 定位控件，用来获取和展示用户主机所在的经纬度位置
+    'AMap.Geolocation', // 定位控件，用来获取和展示用户主机所在的经纬度位置
+    // 'AMap.PolyEditor',
+    'AMap.Geocoder',
+    'AMap.MarkerClusterer',
+    'AMap.Circle',
+    'AMap.PositionPicker',
+    'AMap.AMapUI',
+    'AMap.MouseTool'
 
   ],
   v: '1.4.4',

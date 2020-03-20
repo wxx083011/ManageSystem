@@ -25,7 +25,7 @@
       </el-pagination>
     </div>
     <div class="table" style="margin-top: 20px;text-align: center">
-      <el-table border stripe :data="tableData" style="width: 100%" max-height="700">
+      <el-table border stripe :data="tableData" style="width: 100%" height="700">
         <el-table-column :prop="item.prop" :label="item.label" :width="item.width" show-overflow-tooltip v-for="(item,index) in titleList" :key="index"></el-table-column>
       </el-table>
     </div>

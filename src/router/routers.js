@@ -98,7 +98,7 @@ export default [
       },
       // 轨迹回放
       {
-        // 实时监控
+      // 实时监控
         path: '/pathTrack',
         component: pathTrack,
         meta: { title: '轨迹回放' }

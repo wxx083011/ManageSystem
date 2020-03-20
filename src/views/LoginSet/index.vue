@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-          <el-button @click="resetForm('ruleForm')">取消</el-button>
+          <el-button @click="$router.push('/')">取消</el-button>
         </el-form-item>
       </el-form>
     </el-card>

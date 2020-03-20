@@ -1,6 +1,6 @@
 <template>
-  <div class="wrap center" >
-    <el-tabs v-model="activeName" @tab-click="handleClick" >
+  <div class="wrap center">
+    <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="机构统计" name="机构统计">
         <organization :activeName="activeName"></organization>
       </el-tab-pane>
@@ -19,37 +19,39 @@
 </template>
 
 <script>
-  import { getValidateCode } from "@/api/index";
-  import workOrder from './workOrder.vue'
-  import organization from './organization.vue'
-  import faultRate from './faultRate.vue'
-  import amap from './amap.vue'
-  export default {
-    components:{workOrder,organization,faultRate,amap},
-    data () {
-      return {
-        activeName: '机构统计',
-      };
-    },
-    mounted(){
-
-    },
-    methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
-      },
-
+import workOrder from './workOrder.vue'
+import organization from './organization.vue'
+import faultRate from './faultRate.vue'
+import amap from './amap.vue'
+export default {
+  components: { workOrder, organization, faultRate, amap },
+  data () {
+    return {
+      activeName: '机构统计'
     }
-  };
+  },
+  mounted () {
+
+  },
+  methods: {
+    handleClick (tab, event) {
+      console.log(tab, event)
+    }
+
+  }
+}
 </script>
 <style lang="scss"  >
-  .wrap{
+.wrap {
+  width: 100%;
+  .el-tabs {
     width: 100%;
-    .el-tabs{
-      width: 100%;
-      #tab-车辆排放污染热力图,#tab-机构统计,#tab-工单统计,#tab-故障率统计{
-        font-size: 18px
-      }
+    #tab-车辆排放污染热力图,
+    #tab-机构统计,
+    #tab-工单统计,
+    #tab-故障率统计 {
+      font-size: 18px;
     }
   }
+}
 </style>

@@ -23,11 +23,12 @@ const router = new Router({
 // 使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} | 环保车联网管理系统`
-  const role = localStorage.getItem('ms_username')
-  if (!role && to.path !== '/login') {
+  console.log(to.path)
+  const ms_token = sessionStorage.getItem('ms_token')
+  if (!ms_token && to.path !== '/login') {
     next('/login')
   } else {
     next()
-  }
+}
 })
 export default router

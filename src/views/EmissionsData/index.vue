@@ -25,7 +25,7 @@
       </el-pagination>
     </div>
     <div class="table" style="margin-top: 20px;text-align: center">
-      <el-table  border  stripe   :data="tableData" style="width: 100%" max-height="700">
+      <el-table  border  stripe   :data="tableData" style="width: 100%" height="700">
         <el-table-column prop="date" label="序号"></el-table-column>
         <el-table-column prop="date" label="设备号"></el-table-column>
         <el-table-column prop="name" label="车牌号" ></el-table-column>

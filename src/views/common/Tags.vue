@@ -37,6 +37,7 @@ export default {
     // 关闭单个标签
     closeTags (index) {
       const delItem = this.tagsList.splice(index, 1)[0]
+      console.log(delItem)
       const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1]
       if (item) {
         delItem.path === this.$route.fullPath && this.$router.push(item.path)
@@ -60,7 +61,7 @@ export default {
     setTags (route) {
       const isExist = this.tagsList.some(item => {
         return item.path === route.fullPath
-      })
+      });
       if (!isExist) {
         if (this.tagsList.length >= 8) {
           this.tagsList.shift()

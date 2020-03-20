@@ -34,19 +34,15 @@
         <el-button type="success" icon="el-icon-first-aid-kit">新建</el-button>
       </el-form-item>
     </el-form>
+
     <div class="block">
       <el-pagination background @current-change="handleCurrentChange" :current-page="page" :page-size="rows" layout="total, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
+
     <div class="table" style="margin-top: 20px;text-align: center">
-      <el-table border stripe :data="tableData" style="width: 100%" max-height="700">
-        <el-table-column prop="date" label="序号"></el-table-column>
-        <el-table-column prop="date" label="账号"></el-table-column>
-        <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="province" label="手机号"></el-table-column>
-        <el-table-column prop="city" label="角色"></el-table-column>
-        <el-table-column prop="address" label="所属机构" width="300"></el-table-column>
-        <el-table-column prop="zip" label="创建时间"></el-table-column>
+      <el-table border stripe :data="tableData" style="width: 100%" height="700">
+        <el-table-column v-for="(item,index) in tableName" :prop="item.prop" :label="item.label" :width="item.width" :key="index"></el-table-column>
         <el-table-column fixed="right" label="操作" width="225">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" @click="centerDialogVisible = true">修改</el-button>
@@ -60,202 +56,89 @@
         </el-table-column>
       </el-table>
     </div>
+
+    <!--专门用来导出的-->
+    <div style="display: none"   ref="xlsxTable">
+      <el-table :data="tableData"><el-table-column v-for="(item,index) in tableName" :prop="item.prop" :label="item.label" :key="index"></el-table-column></el-table>
+    </div>
+
     <el-dialog :close-on-click-modal="false" :before-close="dialogClose()" :visible.sync="centerDialogVisible" width="450px" center>
       <edit></edit>
-      <!-- <span slot="footer" class="dialog-footer">
-         <el-button @click="centerDialogVisible = false">取 消</el-button>
-         <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-       </span>-->
     </el-dialog>
   </div>
 </template>
 
 <script>
-import edit from './edit'
-export default {
-  components: { edit },
-  data () {
-    return {
-      roles:[
-        {'value':1,'label':'管理员'},
-        {'value':2,'label':'客服'}
-      ],
-      orgs:[
-        {'value':1,'label':'机构1'},
-        {'value':2,'label':'机构2'}
-      ],
-      // 分页
-      page: 1,
-      rows: 20,
-      total: 100,
-      centerDialogVisible: false,
-      // 表单验证
-      formInline: {
-        roler:'',
-        orgr:'',
-        name: '',
-        phone: ''
-      },
-      // 数据
-      tableData: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-08',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      },{
-        date: '2016-05-06',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-07',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }]
-    }
-  },
-  methods: {
-    /* 查询按钮 */
-    onSubmit () {
-      console.log('查询')
+  import {queryAccount} from '@/api/cxy'
+  import edit from './edit'
+  export default {
+    components: { edit },
+    data () {
+      return {
+        roles:[
+          {'value':1,'label':'管理员'},
+          {'value':2,'label':'客服'}
+        ],
+        orgs:[
+          {'value':1,'label':'机构1'},
+          {'value':2,'label':'机构2'}
+        ],
+        // 分页
+        page: 1,
+        rows: 20,
+        total: 100,
+        centerDialogVisible: false,
+        // 表单验证
+        formInline: {
+          roler:'',
+          orgr:'',
+          name: '',
+          phone: ''
+        },
+        // 数据
+        tableName:[
+          {prop:'orgId',label:'序号'},
+          {prop:'orgName',label:'账号'},
+          {prop:'linkMan',label:'姓名'},
+          {prop:'tel',label:'联系人号码'},
+          {prop:'regionName',label:'手机号'},
+          {prop:'orgAddress',label:'角色'},
+          {prop:'createTime',label:'所属机构'},
+          {prop:'createTime',label:'创建时间'},
+        ],
+        tableData: [{
+          orgId: '2016-05-03',
+          orgName: '王小虎',
+          linkMan: '上海',
+          regionName: '普陀区',
+          orgAddress: '上海市普陀区金沙江路 1518 弄',
+          tel: 200333,
+          createTime: 200333
+        }]
+      }
     },
-    deleteRow () {
-      console.log('查询')
+    mounted(){
+      this.onSubmit()
     },
-    dialogClose () {
+    methods: {
+      /* 查询按钮 */
+      onSubmit () {
+        console.log('查询')
+        queryAccount().then(res=>{
 
-    },
-    handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+        })
+      },
+      deleteRow () {
+        console.log('查询')
+      },
+      dialogClose () {
+
+      },
+      handleCurrentChange (val) {
+        console.log(`当前页: ${val}`)
+      }
     }
   }
-}
 </script>
 
 <style lang="scss"  scoped>

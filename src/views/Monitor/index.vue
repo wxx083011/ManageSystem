@@ -1,7 +1,7 @@
 <template>
   <div class="monitor-wrap">
     <div class="amap-wrap" :class="{ 'amap-100': fullScreen }">
-      <vueMap ref="vueMap" />
+      <vueMap ref="vueMap" @clearDraw='clearDraw()' />
       <!-- 收缩按钮 -->
       <div class="icon-wrap" @click="fullScreen = !fullScreen">
         <i :class="[!fullScreen ? 'el-icon-arrow-right' : 'el-icon-arrow-left']"></i>
@@ -9,8 +9,8 @@
     </div>
     <div class="right-menu" v-show="!fullScreen">
       <div class="filter-wrap">
-        <el-select v-model="people" filterable placeholder="请选择" popper-class='select-option'>
-          <el-option v-for="item in searchPeople" :key="item.value" :label="item.label" :value="item.value">
+        <el-select v-model="orgId" @change='queryCarInfoOnline' filterable placeholder="请选择" popper-class='select-option'>
+          <el-option v-for="item in orgList" :key="item.orgId" :label="item.orgName" :value="item.orgId">
           </el-option>
         </el-select>
         <el-select v-model="time" class="time" placeholder="">
@@ -27,6 +27,7 @@
         <el-tabs :stretch='true' v-model="activeName" type="card" @tab-click="handleClick">
           <el-tab-pane label="在线 17/100" name="online"></el-tab-pane>
           <el-tab-pane label="离线 83/100" name="offline"></el-tab-pane>
+          <el-tab-pane label="报警 83/100" name="alarm"></el-tab-pane>
         </el-tabs>
       </div>
       <div class="filter-wrap" style="height:76%">
@@ -49,7 +50,9 @@
 </template>
 
 <script>
-import vueMap from './vueMap'
+import { geCheckorg, queryCarInfoOffline, queryCarInfoOnline } from '@/api/gps'
+
+import vueMap from './components/vueMap'
 export default {
   components: { vueMap },
   data () {
@@ -85,34 +88,67 @@ export default {
       activeName: 'online',
       fullScreen: false,
       // 下拉框选项
-      searchPeople: [
-        {
-          value: '选项1',
-          label: '张三检测'
-        },
-        {
-          value: '选项2',
-          label: '李四检测'
-        }
-      ],
+      orgList: [],
       timeList: [
         {
-          value: '选项1',
+          value: '10',
           label: '10s'
         },
         {
-          value: '选项2',
+          value: '20',
           label: '20s'
         }
       ],
       // 表单model
-      people: '',
-      time: '',
-      searchword: ''
+      orgId: '',
+      time: '10',
+      searchword: '',
+      page: 0,
+      rows: 10,
+      total: 0
     }
   },
+  mounted () {
+    this.geCheckorg()
+  },
   methods: {
-    // 获取地图的配置
+    geCheckorg () {
+      geCheckorg().then(res => {
+        if (res.data.success) {
+          this.orgList = res.data.data
+          console.log(res)
+        } else {
+          this.$message.error(res.data.msg)
+        }
+      })
+    },
+    // 离线
+    queryCarInfoOffline () {
+      let { orgId, page, rows } = this
+      queryCarInfoOffline({ orgId, page, rows }).then(res => {
+        if (res.data.success) {
+          let { rows, total } = res.data
+          this.tableData = rows
+          this.total = total
+        } else {
+          this.$message.error(res.data.msg)
+        }
+      })
+    },
+    // 在线
+    queryCarInfoOnline () {
+      let { orgId, page, rows } = this
+      queryCarInfoOnline({ orgId, page, rows }).then(res => {
+        if (res.data.success) {
+          let { rows, total } = res.data
+          this.tableData = rows
+          this.total = total
+          console.log(res)
+        } else {
+          this.$message.error(res.data.msg)
+        }
+      })
+    },
     // 全选时候
     selectAll () {
       this.$refs.vueMap.zoom = 5
@@ -128,7 +164,12 @@ export default {
         this.$refs.vueMap.zoom = 5
       }
     },
+    clearDraw () {
+      this.multipleSelection = []
+    },
     handleSelectionChange (val) {
+      console.log(this.$refs.isLine)
+      if (this.$refs.isLine) { this.$refs.markers = [] }
       this.multipleSelection = val
       this.$refs.vueMap.getMarker(val)
       if (val.length > 0) {
@@ -140,6 +181,14 @@ export default {
       }
     },
     handleClick (tab, event) {
+      // switch (tab.) {
+      //   case value:
+
+      //     break;
+
+      //   default:
+      //     break;
+      // }
       console.log(tab, event)
     }
   }

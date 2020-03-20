@@ -10,31 +10,39 @@
         </el-form-item>
         <el-form-item prop="password">
           <el-input type="password" placeholder="password" v-model="param.password" @keyup.enter.native="submitForm()">
-            <el-button class="buggon" slot="prepend" icon="el-icon-lx-lock">密码</el-button>
+            <el-button class="buggon" slot="prepend" icon="el-icon-lx-lock">  密&nbsp;&nbsp;&nbsp;码  </el-button>
           </el-input>
         </el-form-item>
         <div class="login-btn">
-          <el-button type="primary" @click="submitForm()">登录</el-button>
+          <el-button type="primary" @click.native.prevent="submitForm()">登录</el-button>
         </div>
-        <p class="login-tips">Tips : 用户名和密码随便填。</p>
+        <p class="login-tips"></p>
       </el-form>
     </div>
   </div>
 </template>
 
 <script>
+import { login } from '@/api/login'
 export default {
   data: function () {
+    const validatePass = (rule, value, callback) => {
+      if (value.length < 5) {
+        callback(new Error('密码不能小于5位'))
+      } else {
+        callback()
+      }
+    }
     return {
       param: {
         username: 'admin',
-        password: '123123'
+        password: '123456'
       },
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+        password: [{ required: true, message: '密码不能小于5位', trigger: 'blur', validator: validatePass }]
       }
     }
   },
@@ -42,9 +50,16 @@ export default {
     submitForm () {
       this.$refs.login.validate(valid => {
         if (valid) {
-          this.$message.success('登录成功')
-          localStorage.setItem('ms_username', this.param.username)
-          this.$router.push('/')
+          login(this.param.username, this.param.password).then(res => {
+            console.log(res.data.token)
+            if (res.data.success) {
+              this.$message.success('登录成功')
+              sessionStorage.setItem('ms_token', res.data.token)// token
+              this.$router.push('/')
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
         } else {
           this.$message.error('请输入账号和密码')
           console.log('error submit!!')
@@ -57,14 +72,14 @@ export default {
 </script>
 
 <style scoped>
-  .buggon{
-    color: #ffffff;
-  }
+.buggon {
+  color: #ffffff;
+}
 .login-wrap {
   position: relative;
   width: 100%;
   height: 100%;
-  background-image: url(../../assets/img/login-bg.jpg);
+  background-image: url(../../assets/img/login-bg.png);
   background-size: 100%;
 }
 .ms-title {
@@ -77,7 +92,7 @@ export default {
 }
 .ms-login {
   position: absolute;
-  left: 50%;
+  right: 20%;
   top: 50%;
   width: 350px;
   margin: -190px 0 0 -175px;
