@@ -283,4 +283,6 @@ vue.js vue-amap 的安装。访问地址：[vue-amap](https://blog.csdn.net/jing
 </style>
 ```
 
-[MIT](https://github.com/lin-xin/vue-manage-system/blob/master/LICENSE)
+## 额外说明
+star一下，多谢
+
