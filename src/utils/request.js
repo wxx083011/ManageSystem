@@ -1,7 +1,5 @@
 import axios from 'axios'
-// export const address = 'http://192.168.3.135:8206/' // 测试环境
-export const address = 'http://192.168.3.119:8206/' // 赖工测试
-// export const address = 'http://14.21.40.133:8008/adminapi/' // 外网测试
+export const address = ''
 
 // import store from '@/store'
 // 创建axios实例

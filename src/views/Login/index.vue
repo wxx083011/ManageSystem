@@ -48,24 +48,26 @@ export default {
   },
   methods: {
     submitForm () {
-      this.$refs.login.validate(valid => {
-        if (valid) {
-          login(this.param.username, this.param.password).then(res => {
-            console.log(res.data.token)
-            if (res.data.success) {
-              this.$message.success('登录成功')
-              sessionStorage.setItem('ms_token', res.data.token)// token
               this.$router.push('/')
-            } else {
-              this.$message.error(res.data.msg)
-            }
-          })
-        } else {
-          this.$message.error('请输入账号和密码')
-          console.log('error submit!!')
-          return false
-        }
-      })
+
+      // this.$refs.login.validate(valid => {
+      //   if (valid) {
+      //     login(this.param.username, this.param.password).then(res => {
+      //       console.log(res.data.token)
+      //       if (res.data.success) {
+      //         this.$message.success('登录成功')
+      //         sessionStorage.setItem('ms_token', res.data.token)// token
+      //         this.$router.push('/')
+      //       } else {
+      //         this.$message.error(res.data.msg)
+      //       }
+      //     })
+      //   } else {
+      //     this.$message.error('请输入账号和密码')
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
     }
   }
 }

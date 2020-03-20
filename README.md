@@ -284,5 +284,5 @@ vue.js vue-amap 的安装。访问地址：[vue-amap](https://blog.csdn.net/jing
 ```
 
 ## 额外说明
-star一下，多谢
+star一下，多谢.
 
