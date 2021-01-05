@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "area-data": "^5.0.6",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "echarts": "^4.6.0",
     "element-china-area-data": "^4.1.2",
     "element-ui": "^2.13.0",
